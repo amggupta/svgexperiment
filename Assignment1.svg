@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="-50 -50 400 400" xmlns="http://www.w3.org/2000/svg" onload="makeDraggable(evt)">
+  <rect width="300" height="300" style="fill: rgb(216, 216, 216);">
+  </rect>
+  <line style="stroke: rgb(0, 0, 0);" x1="0" y1="60" x2="60" y2="300" id="L1"/>
+  <line style="stroke: rgb(0, 0, 0);" x1="60" y1="300" x2="300" y2="240" id="L2"/>
+  <line style="stroke: rgb(0, 0, 0);" x1="300" y1="240" x2="240" y2="0" id="L3"/>
+  <line style="stroke: rgb(0, 0, 0);" x1="240" y1="0" x2="0" y2="60" id="L4"/>
+  <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="60" cy="300" r="8" id="P1"/>
+  <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="0" cy="60" r="8" id="P2"/>
+  <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="240" cy="0" r="8" id="P3"/>
+  <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="300" cy="240" r="8" id="P4"/>
+<script>
+var selectedElement = false;
+
+function makeDraggable(evt) {
+  var svg = evt.target;
+  svg.addEventListener('mousedown', startDrag);
+  svg.addEventListener('mousemove', drag);
+  svg.addEventListener('mouseup', endDrag);
+  svg.addEventListener('mouseleave', endDrag);
+  function startDrag(evt) {
+    if (evt.target.classList.contains('draggable')) {
+      evt.preventDefault();
+      selectedElement = evt.target;
+  }
+  }
+  function drag(evt) {
+    if (selectedElement) {
+      var coord = getMousePosition(evt);
+
+      if ( (selectedElement.id == "P1") || (selectedElement.id == "P3"))  {
+        var curr_x = selectedElement.getAttribute("cx");
+        
+        var delta = coord.x - curr_x;
+        if ( selectedElement.id == "P3" ) delta = -delta;
+          updatePoint( delta );
+      } else {
+        //selectedElement.setAttribute("cy", coord.y);
+      }
+    }
+  }
+  function endDrag(evt) {
+    selectedElement = false;
+  }
+
+  function getMousePosition(evt) {
+    var CTM = svg.getScreenCTM();
+    return {
+      x: (evt.clientX - CTM.e) / CTM.a,
+      y: (evt.clientY - CTM.f) / CTM.d
+    };
+  }
+
+  function updatePoint( delta ) {
+    var P1, P2, P3, P4;
+
+    P1 = svg.getElementById("P1");
+    P2 = svg.getElementById("P2");
+    P3 = svg.getElementById("P3");
+    P4 = svg.getElementById("P4");
+
+    var x, y;
+
+    x = P1.getAttribute("cx"); x = +x + +delta; P1.setAttribute("cx", x);
+    x = P3.getAttribute("cx"); x = x - delta; P3.setAttribute("cx", x);
+
+    y = P2.getAttribute("cy"); y = +y + +delta; P2.setAttribute("cy", y);
+    y = P4.getAttribute("cy"); y -= delta; P4.setAttribute("cy", y);
+  }
+
+}
+
+
+</script>  
+</svg>
