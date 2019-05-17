@@ -5,24 +5,39 @@
   <polyline style="fill: rgb(216, 216, 216); stroke: rgb(199, 30, 81);" points="280 0 280 20 300 20"/>
   <polyline style="fill: rgb(216, 216, 216); stroke: rgb(199, 30, 81);" points="0 280 20 280 20 300"/>
   <polyline style="fill: rgb(216, 216, 216); stroke: rgb(199, 30, 81);" points="280 300 280 280 300 280"/>
-  <line style="stroke: rgb(0, 0, 0);" x1="0" y1="60" x2="60" y2="300" id="L1"/>
-  <line style="stroke: rgb(0, 0, 0);" x1="60" y1="300" x2="300" y2="240" id="L4"/>
-  <line style="stroke: rgb(0, 0, 0);" x1="300" y1="240" x2="240" y2="0" id="L3"/>
-  <line style="stroke: rgb(0, 0, 0);" x1="240" y1="0" x2="0" y2="60" id="L2"/>
-  <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="60" cy="300" r="8" id="P1"/>
-  <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="0" cy="60" r="8" id="P2"/>
-  <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="240" cy="0" r="8" id="P3"/>
-  <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="300" cy="240" r="8" id="P4"/>
+  <line class="line" x1="60" y1="300" x2="0" y2="60" id="L1"/>
+  <line class="line" x1="0" y1="60" x2="240" y2="0" id="L2"/>
+  <line class="line" x1="240" y1="0" x2="300" y2="240" id="L3"/>
+  <line class="line" x1="300" y1="240" x2="60" y2="300" id="L4"/>
+  <circle class="draggable" cx="60" cy="300" r="8" id="P1"/>
+  <circle class="draggable" cx="0" cy="60" r="8" id="P2"/>
+  <circle class="draggable" cx="240" cy="0" r="8" id="P3"/>
+  <circle class="draggable" cx="300" cy="240" r="8" id="P4"/>
 
-  <text id="M11" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="30" y="325">b</text>
-  <text id="M12" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="160" y="325">a</text>
-  <text id="M21" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="-15" y="30">b</text>
-  <text id="M22" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="-15" y="170">a</text>
-  <text id="M31" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="130" y="-10">b</text>
-  <text id="M32" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="270" y="-10">a</text>
-  <text id="M41" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="315" y="130">b</text>
-  <text id="M42" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="315" y="270">a</text>
-
+  <text id="M11" class="marker" x="30" y="325">b</text>
+  <text id="M12" class="marker" x="160" y="325">a</text>
+  <text id="M21" class="marker" x="-15" y="30">b</text>
+  <text id="M22" class="marker" x="-15" y="170">a</text>
+  <text id="M31" class="marker" x="130" y="-10">a</text>
+  <text id="M32" class="marker" x="270" y="-10">b</text>
+  <text id="M41" class="marker" x="315" y="130">a</text>
+  <text id="M42" class="marker" x="315" y="270">b</text>
+  <style>
+  .marker{
+      fill: rgb(51, 51, 51); 
+      font-size: 32px; 
+      font-style: italic; 
+      font-weight: 500; 
+      white-space: pre; 
+      text-anchor: middle;
+  }
+  .draggable{
+    fill: rgb(17, 116, 23);
+  }
+  .line{
+    stroke: rgb(0,0,0);
+  }
+  </style>
   <script>
 var selectedElement = false;
 
@@ -104,25 +119,16 @@ function makeDraggable(evt) {
     M41.setAttribute("y", y*0.5); M42.setAttribute("y", y*0.5 + 150 );
 
     L1.setAttribute("x1", P1.getAttribute("cx"));
-    L1.setAttribute("y1", P1.getAttribute("cy"));
-    L1.setAttribute("x2", P2.getAttribute("cx"));
     L1.setAttribute("y2", P2.getAttribute("cy"));
 
-    L2.setAttribute("x1", P2.getAttribute("cx"));
     L2.setAttribute("y1", P2.getAttribute("cy"));
     L2.setAttribute("x2", P3.getAttribute("cx"));
-    L2.setAttribute("y2", P3.getAttribute("cy"));
 
     L3.setAttribute("x1", P3.getAttribute("cx"));
-    L3.setAttribute("y1", P3.getAttribute("cy"));
-    L3.setAttribute("x2", P4.getAttribute("cx"));
     L3.setAttribute("y2", P4.getAttribute("cy"));
 
-    L4.setAttribute("x1", P4.getAttribute("cx"));
     L4.setAttribute("y1", P4.getAttribute("cy"));
     L4.setAttribute("x2", P1.getAttribute("cx"));
-    L4.setAttribute("y2", P1.getAttribute("cy"));
-
   }
 
 }
