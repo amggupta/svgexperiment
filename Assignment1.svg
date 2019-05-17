@@ -5,7 +5,6 @@
   <polyline style="fill: rgb(216, 216, 216); stroke: rgb(199, 30, 81);" points="280 0 280 20 300 20"/>
   <polyline style="fill: rgb(216, 216, 216); stroke: rgb(199, 30, 81);" points="0 280 20 280 20 300"/>
   <polyline style="fill: rgb(216, 216, 216); stroke: rgb(199, 30, 81);" points="280 300 280 280 300 280"/>
-
   <line style="stroke: rgb(0, 0, 0);" x1="0" y1="60" x2="60" y2="300" id="L1"/>
   <line style="stroke: rgb(0, 0, 0);" x1="60" y1="300" x2="300" y2="240" id="L4"/>
   <line style="stroke: rgb(0, 0, 0);" x1="300" y1="240" x2="240" y2="0" id="L3"/>
@@ -15,7 +14,16 @@
   <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="240" cy="0" r="8" id="P3"/>
   <circle class="draggable" style="fill: rgb(17, 116, 23);" cx="300" cy="240" r="8" id="P4"/>
 
-<script>
+  <text id="M11" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="30" y="325">b</text>
+  <text id="M12" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="160" y="325">a</text>
+  <text id="M21" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="-15" y="30">b</text>
+  <text id="M22" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="-15" y="170">a</text>
+  <text id="M31" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="130" y="-10">b</text>
+  <text id="M32" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="270" y="-10">a</text>
+  <text id="M41" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="315" y="130">b</text>
+  <text id="M42" style="fill: rgb(51, 51, 51); font-size: 32px; font-style: italic; font-weight: 500; white-space: pre; text-anchor: middle;" x="315" y="270">a</text>
+
+  <script>
 var selectedElement = false;
 
 function makeDraggable(evt) {
@@ -60,6 +68,7 @@ function makeDraggable(evt) {
   function updatePoint( delta ) {
     var P1, P2, P3, P4;
     var L1, L2, L3, L4;
+    var M11, M12, M21, M22, M31, M32, M41, M42;
 
     P1 = svg.getElementById("P1");
     P2 = svg.getElementById("P2");
@@ -71,13 +80,28 @@ function makeDraggable(evt) {
     L3 = svg.getElementById("L3");
     L4 = svg.getElementById("L4");
 
+    M11 = svg.getElementById("M11");
+    M12 = svg.getElementById("M12");
+    M21 = svg.getElementById("M21");
+    M22 = svg.getElementById("M22");
+    M31 = svg.getElementById("M31");
+    M32 = svg.getElementById("M32");
+    M41 = svg.getElementById("M41");
+    M42 = svg.getElementById("M42");    
+
     var x, y;
 
     x = P1.getAttribute("cx"); x = +x + +delta; P1.setAttribute("cx", x);
+    M11.setAttribute("x", x*0.5); M12.setAttribute("x", x*0.5 + 150 );
+
     x = P3.getAttribute("cx"); x = x - delta; P3.setAttribute("cx", x);
+    M31.setAttribute("x", x*0.5); M32.setAttribute("x", x*0.5 + 150 );
 
     y = P2.getAttribute("cy"); y = +y + +delta; P2.setAttribute("cy", y);
+    M21.setAttribute("y", y*0.5); M22.setAttribute("y", y*0.5 + 150 );
+
     y = P4.getAttribute("cy"); y -= delta; P4.setAttribute("cy", y);
+    M41.setAttribute("y", y*0.5); M42.setAttribute("y", y*0.5 + 150 );
 
     L1.setAttribute("x1", P1.getAttribute("cx"));
     L1.setAttribute("y1", P1.getAttribute("cy"));
@@ -98,6 +122,7 @@ function makeDraggable(evt) {
     L4.setAttribute("y1", P4.getAttribute("cy"));
     L4.setAttribute("x2", P1.getAttribute("cx"));
     L4.setAttribute("y2", P1.getAttribute("cy"));
+
   }
 
 }
