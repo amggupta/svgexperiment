@@ -39,6 +39,7 @@
   }
   </style>
   <script>
+
 var selectedElement = false;
 
 function makeDraggable(evt) {
@@ -47,12 +48,17 @@ function makeDraggable(evt) {
   svg.addEventListener('mousemove', drag);
   svg.addEventListener('mouseup', endDrag);
   svg.addEventListener('mouseleave', endDrag);
+
+  window.addEventListener('some_message', receiveMessage);
+
+  
   function startDrag(evt) {
     if (evt.target.classList.contains('draggable')) {
       evt.preventDefault();
       selectedElement = evt.target;
+    }
   }
-  }
+  
   function drag(evt) {
     if (selectedElement) {
       var coord = getMousePosition(evt);
@@ -64,10 +70,15 @@ function makeDraggable(evt) {
         if ( selectedElement.id == "P3" ) delta = -delta;
           updatePoint( delta );
       } else {
-        //selectedElement.setAttribute("cy", coord.y);
+        var curr_y = selectedElement.getAttribute("cy");
+        
+        var delta = coord.y - curr_y;
+        if ( selectedElement.id == "P4" ) delta = -delta;
+          updatePoint( delta );
       }
     }
   }
+  
   function endDrag(evt) {
     selectedElement = false;
   }
@@ -131,6 +142,11 @@ function makeDraggable(evt) {
     L4.setAttribute("x2", P1.getAttribute("cx"));
   }
 
+  function receiveMessage(evt) {
+      updatePoint( 10 );
+  }
+
 }
+
 </script>
 </svg>
