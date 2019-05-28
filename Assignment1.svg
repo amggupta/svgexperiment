@@ -31,7 +31,7 @@
   <text id="M41" class="marker" x="315" y="130">a</text>
   <text id="M42" class="marker" x="315" y="270">b</text>
   <g user-select = "none">
-    <text id="B_LABEL" x="150" y="348" font-size= "12px" text-anchor ="middle">Show me ! </text>
+    <text id="B_LABEL" x="150" y="348" font-size= "15px" text-anchor ="middle">Show me ! </text>
     <rect x="110" y="335" width="80" height="20" rx="5" ry="5" id="B1" style="fill: rgb(17, 116, 23); stroke: rgb(199, 30, 81); fill-opacity:0.5" onclick="showPytha()"/>
   </g>
   <polyline class="side_angle anim_hide" points="0 12 12 12 12 0"/>
