@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="-50 -50 400 450" onload="makeDraggable(evt)" xmlns="http://www.w3.org/2000/svg">
+  <line class="line" x1="60" y1="300" x2="0" y2="0" id="L1"/>
+  <line class="line" x1="0" y1="0" x2="0" y2="300" id="L2"/>
+  <line class="line" x1="0" y1="300" x2="60" y2="300" id="L3"/>
+  <circle class="draggable anim_hide" cx="60" cy="300" r="8" id="P1"/>
+  <circle class="draggable anim_hide" cx="0" cy="0" r="8" id="P2"/>
+  <circle class="draggable anim_hide" cx="0" cy="300" r="8" id="P3"/>
+  <text id="M11" class="marker" x="30" y="325">
+    <animateTransform class="anim_move" id="M_TRANS11" dur="0.2s" begin="TRANS1.end" attributeName="transform" type="translate" fill="freeze"/>b
+  </text>
+  <text id="M22" class="marker" x="-15" y="170">
+    <animateTransform class="anim_move" id="M_TRANS22" dur="0.2s" begin="TRANS4.end" attributeName="transform" type="translate" fill="freeze"/>a
+  </text>
+  <polyline class="side_angle anim_hide" points="0 288 12 288 12 300"/>
+  <style>
+  .marker{
+      fill: rgb(51, 51, 51); 
+      font-size: 24px; 
+      font-style: italic; 
+      font-weight: 500; 
+      white-space: pre; 
+      text-anchor: middle;
+  }
+  .triangle{
+    fill: white;
+    stroke: grey;
+    //stroke-dasharray : 5;
+   }
+  .side_angle{
+    fill: none;
+    stroke: rgb(199, 30, 81);
+    }
+  .draggable{
+    fill: rgb(17, 116, 23);
+  }
+  .line{
+    stroke: rgb(0,0,0);
+  }
+  .show{
+    stroke: rgb(0,0,255);
+    stroke-width: 3;
+   }
+</style>
+<script>
+    
+<![CDATA[
+
+var selectedElement = false;
+var svg = false;
+
+function listenMessages(){
+   window.addEventListener('message', function(e) {
+      var line = 0;
+
+      if ( (e.data == "toggle_a") )
+          line = svg.getElementById("L2");
+      else if ( (e.data == "toggle_b") )
+          line = svg.getElementById("L3");
+      else if ( (e.data == "toggle_c") )
+          line = svg.getElementById("L1");
+
+      if (line){
+        if ( line.classList.contains('show') ){
+            line.classList.remove('show');
+        }else {      
+          line.classList.add("show");
+        }
+      }
+   });
+}
+    
+function makeDraggable(evt) {
+  svg = evt.target;
+  svg.addEventListener('mousedown', startDrag);
+  svg.addEventListener('mousemove', drag);
+  svg.addEventListener('mouseup', endDrag);
+  svg.addEventListener('mouseleave', endDrag);
+
+  // Listen to messages from parent window
+  listenMessages();
+
+  
+  function startDrag(evt) {
+    if (evt.target.classList.contains('draggable') ) {
+      evt.preventDefault();
+      selectedElement = evt.target;
+    }
+  }
+  
+  function drag(evt) {
+    if (selectedElement) {
+      var coord = getMousePosition(evt);
+      var point;
+
+      if (selectedElement.id == "P1") {
+          point = svg.getElementById("P1");
+          point.setAttribute("cx", coord.x);
+          updateAll();
+          
+      } else if (selectedElement.id == "P2") {
+          point = svg.getElementById("P2");
+          point.setAttribute("cy", coord.y);
+          updateAll();
+      }
+    }
+  }
+  
+  function endDrag(evt) {
+    selectedElement = false;
+  }
+
+  function getMousePosition(evt) {
+    var CTM = svg.getScreenCTM();
+    return {
+      x: (evt.clientX - CTM.e) / CTM.a,
+      y: (evt.clientY - CTM.f) / CTM.d
+    };
+  }
+
+  function updateAll() {
+    var P1, P2, P3
+    var M11, M22;
+
+    P1 = svg.getElementById("P1");
+    P2 = svg.getElementById("P2");
+    P3 = svg.getElementById("P3");
+
+    M11 = svg.getElementById("M11");
+    M22 = svg.getElementById("M22");
+
+    M11.setAttribute("x", P1.getAttribute("cx")*0.5); 
+    M22.setAttribute("y", P2.getAttribute("cy")*0.5 + 150 );
+
+    var L1 = svg.getElementById("L1");
+    var L2 = svg.getElementById("L2");
+    var L3 = svg.getElementById("L3");
+
+    L1.setAttribute("x1", P1.getAttribute("cx")); L1.setAttribute("y2", P2.getAttribute("cy") );
+    L2.setAttribute("y1", P2.getAttribute("cy"));
+    L3.setAttribute("x2", P1.getAttribute("cx"));
+  }
+
+}
+
+
+
+
+]]>
+    
+</script>
+</svg>
