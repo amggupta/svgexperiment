@@ -1,39 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="-50 -50 350 400" onload="makeDraggable(evt)" xmlns="http://www.w3.org/2000/svg">
-  <rect width="300" height="300" style="fill: rgb(216, 216, 216); stroke: rgb(199, 30, 81);"/>
-  <polygon class="triangle" points="60,300 0,60 0,300" id="T1">
-    <animateTransform class="anim_move" id="TRANS1" dur="0.2s" attributeName="transform" type="translate" fill="freeze"/>
-  </polygon>
-  <polygon class="triangle" points="0,60 240,0 0,0" id="T2">
-    <animateTransform class="anim_move" id="TRANS2" attributeName="transform" type="translate" dur="0.2s" begin="TRANS4.end" fill="freeze"/>
-  </polygon>
-  <polygon class="triangle" points="240,0 300,240 300,0" id="T3"/>
-  <polygon class="triangle" points="300,240 60,300 300,300" id="T4">
-    <animateTransform class="anim_move" id="TRANS4" attributeName="transform" type="translate" dur="0.2s" begin="TRANS1.end" fill="freeze"/>
-  </polygon>
+<svg viewBox="-50 -50 400 450" onload="makeDraggable(evt)" xmlns="http://www.w3.org/2000/svg">
+  <line class="line" x1="60" y1="300" x2="0" y2="0" id="L1"/>
+  <line class="line" x1="0" y1="0" x2="0" y2="300" id="L2"/>
+  <line class="line" x1="0" y1="300" x2="60" y2="300" id="L3"/>
   <circle class="draggable anim_hide" cx="60" cy="300" r="8" id="P1"/>
-  <circle class="draggable anim_hide" cx="0" cy="60" r="8" id="P2"/>
-  <circle class="draggable anim_hide" cx="240" cy="0" r="8" id="P3"/>
-  <circle class="draggable anim_hide" cx="300" cy="240" r="8" id="P4"/>
-  <text id="M11" class="marker" x="30" y="325">
-    <animateTransform class="anim_move" id="M_TRANS11" dur="0.2s" begin="TRANS1.end" attributeName="transform" type="translate" fill="freeze"/>b
+  <circle class="draggable anim_hide" cx="0" cy="0" r="8" id="P2"/>
+  <circle class="draggable anim_hide" cx="0" cy="300" r="8" id="P3"/>
+  <text id="M11" class="marker" x="30" y="325">a
   </text>
-  <text id="M12" class="marker" x="160" y="325">
-    <animateTransform class="anim_move" id="M_TRANS12" dur="0.2s" begin="TRANS1.end" attributeName="transform" type="translate" fill="freeze"/>a</text>
-  <text id="M21" class="marker" x="-15" y="30">
-    <animateTransform class="anim_move" id="M_TRANS21" dur="0.2s" begin="TRANS4.end" attributeName="transform" type="translate" fill="freeze"/>b
+  <text id="M22" class="marker" x="-15" y="170">b
   </text>
-  <text id="M22" class="marker" x="-15" y="170">
-    <animateTransform class="anim_move" id="M_TRANS22" dur="0.2s" begin="TRANS4.end" attributeName="transform" type="translate" fill="freeze"/>a
+  <text id="M33" class="marker" x="50" y="130">c
   </text>
-  <text id="M31" class="marker" x="130" y="-10">a</text>
-  <text id="M32" class="marker" x="270" y="-10">b</text>
-  <text id="M41" class="marker" x="315" y="130">a</text>
-  <text id="M42" class="marker" x="315" y="270">b</text>
-  <polyline class="side_angle anim_hide" points="0 12 12 12 12 0"/>
-  <polyline class="side_angle anim_hide" points="288 0 288 12 300 12"/>
   <polyline class="side_angle anim_hide" points="0 288 12 288 12 300"/>
-  <polyline class="side_angle anim_hide" points="288 300 288 288 300 288"/>
   <style>
   .marker{
       fill: rgb(51, 51, 51); 
@@ -58,6 +37,10 @@
   .line{
     stroke: rgb(0,0,0);
   }
+  .show{
+    stroke: rgb(0,0,255);
+    stroke-width: 3;
+   }
 </style>
 <script>
     
@@ -65,84 +48,28 @@
 
 var selectedElement = false;
 var svg = false;
-var anim_mode = false;
-var button_label = false;
-
 
 function listenMessages(){
    window.addEventListener('message', function(e) {
-        if (e.data == "show_pytha"){
-          showPytha();
+      var line = 0;
+
+      if ( (e.data == "toggle_a") )
+          line = svg.getElementById("L2");
+      else if ( (e.data == "toggle_b") )
+          line = svg.getElementById("L3");
+      else if ( (e.data == "toggle_c") )
+          line = svg.getElementById("L1");
+
+      if (line){
+        if ( line.classList.contains('show') ){
+            line.classList.remove('show');
+        }else {      
+          line.classList.add("show");
         }
+      }
    });
- }
-    
-function showPytha(){
-    var P1 = svg.getElementById("P1");
-    var P2 = svg.getElementById("P2");
-    var P3 = svg.getElementById("P3");
-    var P4 = svg.getElementById("P4");
-  
-    var trans1 = svg.getElementById("TRANS1");
-    var trans2 = svg.getElementById("TRANS2");
-    var trans4 = svg.getElementById("TRANS4");
-  
-    var m_trans11 = svg.getElementById("M_TRANS11");
-    var m_trans12 = svg.getElementById("M_TRANS12");
-    var m_trans21 = svg.getElementById("M_TRANS21");
-    var m_trans22 = svg.getElementById("M_TRANS22");
-
-    if ( anim_mode == false ) { 
-      var del_x = P3.getAttribute("cx") - P2.getAttribute("cx");
-      var del_y = P3.getAttribute("cy") - P2.getAttribute("cy");
-      trans1.setAttribute("to", del_x + "," + del_y);
-      trans1.setAttribute("dur", "2s");
-      m_trans22.setAttribute("to", "0 ," + del_y);
-      m_trans22.setAttribute("dur", "2s");
-      m_trans11.setAttribute("to", del_x + ", 0" );
-      m_trans11.setAttribute("dur", "2s");
-
-      del_x = -P1.getAttribute("cx"); del_y = 0;
-      trans4.setAttribute("to", del_x + "," + del_y);
-      trans4.setAttribute("dur", "2s");
-      m_trans12.setAttribute("to", del_x + "," + del_y);
-      m_trans12.setAttribute("dur", "2s");
-      
-
-      del_x = 0; del_y = 300 - P2.getAttribute("cy");
-      trans2.setAttribute("to", del_x + "," + del_y);
-      trans2.setAttribute("dur", "2s");
-      m_trans21.setAttribute("to", del_x + "," + del_y);
-      m_trans21.setAttribute("dur", "2s");
-
-      anim_mode = true;
-
-      var x = document.getElementsByClassName("anim_hide");
-      var i;
-      for (i = 0; i < x.length; i++) {
-        x[i].style.visibility = "hidden";
-      }  
-
-    } else {
-        anim_mode = false;
-        var x = document.getElementsByClassName("anim_hide");
-        var i;
-        for (i = 0; i < x.length; i++) {
-          x[i].style.visibility = "visible";
-        }
-
-        x = document.getElementsByClassName("anim_move");
-        for (i = 0; i < x.length; i++) {
-          x[i].setAttribute("to", "0 0");
-          x[i].setAttribute("dur", "0.2s");
-        }
-
-    }
-
-    trans1.beginElement();
-    console.log("button was clicked.");
 }
-
+    
 function makeDraggable(evt) {
   svg = evt.target;
   svg.addEventListener('mousedown', startDrag);
@@ -150,15 +77,12 @@ function makeDraggable(evt) {
   svg.addEventListener('mouseup', endDrag);
   svg.addEventListener('mouseleave', endDrag);
 
-  button_label = svg.getElementById("B_LABEL");
-  anim_mode = false;
-
   // Listen to messages from parent window
   listenMessages();
 
   
   function startDrag(evt) {
-    if (evt.target.classList.contains('draggable') && (anim_mode == false) ) {
+    if (evt.target.classList.contains('draggable') ) {
       evt.preventDefault();
       selectedElement = evt.target;
     }
@@ -167,19 +91,17 @@ function makeDraggable(evt) {
   function drag(evt) {
     if (selectedElement) {
       var coord = getMousePosition(evt);
+      var point;
 
-      if ( (selectedElement.id == "P1") || (selectedElement.id == "P3"))  {
-        var curr_x = selectedElement.getAttribute("cx");
-        
-        var delta = coord.x - curr_x;
-        if ( selectedElement.id == "P3" ) delta = -delta;
-          updatePoint( delta );
-      } else {
-        var curr_y = selectedElement.getAttribute("cy");
-        
-        var delta = coord.y - curr_y;
-        if ( selectedElement.id == "P4" ) delta = -delta;
-          updatePoint( delta );
+      if (selectedElement.id == "P1") {
+          point = svg.getElementById("P1");
+          point.setAttribute("cx", coord.x);
+          updateAll();
+          
+      } else if (selectedElement.id == "P2") {
+          point = svg.getElementById("P2");
+          point.setAttribute("cy", coord.y);
+          updateAll();
       }
     }
   }
@@ -196,57 +118,33 @@ function makeDraggable(evt) {
     };
   }
 
-  function updatePoint( delta ) {
-    var P1, P2, P3, P4;
-    var L1, L2, L3, L4;
-    var M11, M12, M21, M22, M31, M32, M41, M42;
+  function updateAll() {
+    var P1, P2, P3
+    var M11, M22, M33;
 
     P1 = svg.getElementById("P1");
     P2 = svg.getElementById("P2");
     P3 = svg.getElementById("P3");
-    P4 = svg.getElementById("P4");
 
     M11 = svg.getElementById("M11");
-    M12 = svg.getElementById("M12");
-    M21 = svg.getElementById("M21");
     M22 = svg.getElementById("M22");
-    M31 = svg.getElementById("M31");
-    M32 = svg.getElementById("M32");
-    M41 = svg.getElementById("M41");
-    M42 = svg.getElementById("M42");    
+    M33 = svg.getElementById("M33");
 
-    var x, y;
+    M11.setAttribute("x", P1.getAttribute("cx")*0.5); 
+    M22.setAttribute("y", P2.getAttribute("cy")*0.5 + 150 );
+    M33.setAttribute("x", P1.getAttribute("cx")*0.5 + P2.getAttribute("cx")*0.5 + 20);
+    M33.setAttribute("y", P1.getAttribute("cy")*0.5 + P2.getAttribute("cy")*0.5 - 20);
 
-    x = P1.getAttribute("cx"); x = +x + +delta; P1.setAttribute("cx", x);
-    M11.setAttribute("x", x*0.5); M12.setAttribute("x", x*0.5 + 150 );
+    var L1 = svg.getElementById("L1");
+    var L2 = svg.getElementById("L2");
+    var L3 = svg.getElementById("L3");
 
-    x = P3.getAttribute("cx"); x = x - delta; P3.setAttribute("cx", x);
-    M31.setAttribute("x", x*0.5); M32.setAttribute("x", x*0.5 + 150 );
-
-    y = P2.getAttribute("cy"); y = +y + +delta; P2.setAttribute("cy", y);
-    M21.setAttribute("y", y*0.5); M22.setAttribute("y", y*0.5 + 150 );
-
-    y = P4.getAttribute("cy"); y -= delta; P4.setAttribute("cy", y);
-    M41.setAttribute("y", y*0.5); M42.setAttribute("y", y*0.5 + 150 );
-    
-    var T1 = svg.getElementById("T1");
-    var T2 = svg.getElementById("T2");
-    var T3 = svg.getElementById("T3");
-    var T4 = svg.getElementById("T4");
-
-    T1.setAttribute("points", P1.getAttribute("cx") + ',' + P1.getAttribute("cy")+ ' ' +
-                              P2.getAttribute("cx") + ',' + P2.getAttribute("cy")+ ' 0,300' );
-    T2.setAttribute("points", P2.getAttribute("cx") + ',' + P2.getAttribute("cy")+ ' ' +
-                              P3.getAttribute("cx") + ',' + P3.getAttribute("cy")+ ' 0,0' );
-    T3.setAttribute("points", P3.getAttribute("cx") + ',' + P3.getAttribute("cy")+ ' ' +
-                              P4.getAttribute("cx") + ',' + P4.getAttribute("cy")+ ' 300,0' );
-    T4.setAttribute("points", P4.getAttribute("cx") + ',' + P4.getAttribute("cy")+ ' ' +
-                              P1.getAttribute("cx") + ',' + P1.getAttribute("cy")+ ' 300, 300' );
-
+    L1.setAttribute("x1", P1.getAttribute("cx")); L1.setAttribute("y2", P2.getAttribute("cy") );
+    L2.setAttribute("y1", P2.getAttribute("cy"));
+    L3.setAttribute("x2", P1.getAttribute("cx"));
   }
 
 }
-
 
 ]]>
     
