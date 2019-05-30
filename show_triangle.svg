@@ -54,9 +54,9 @@ function listenMessages(){
       var line = 0;
 
       if ( (e.data == "toggle_a") )
-          line = svg.getElementById("L2");
-      else if ( (e.data == "toggle_b") )
           line = svg.getElementById("L3");
+      else if ( (e.data == "toggle_b") )
+          line = svg.getElementById("L2");
       else if ( (e.data == "toggle_c") )
           line = svg.getElementById("L1");
 
