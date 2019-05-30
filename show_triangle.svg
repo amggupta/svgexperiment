@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg viewBox="-50 -50 400 450" onload="makeDraggable(evt)" xmlns="http://www.w3.org/2000/svg">
-  <line class="line" x1="60" y1="300" x2="0" y2="0" id="L1"/>
+  <line class="line" x1="200" y1="300" x2="0" y2="0" id="L1"/>
   <line class="line" x1="0" y1="0" x2="0" y2="300" id="L2"/>
-  <line class="line" x1="0" y1="300" x2="60" y2="300" id="L3"/>
-  <circle class="draggable anim_hide" cx="60" cy="300" r="8" id="P1"/>
+  <line class="line" x1="0" y1="300" x2="200" y2="300" id="L3"/>
+  <circle class="draggable anim_hide" cx="200" cy="300" r="8" id="P1"/>
   <circle class="draggable anim_hide" cx="0" cy="0" r="8" id="P2"/>
   <circle class="draggable anim_hide" cx="0" cy="300" r="8" id="P3"/>
-  <text id="M11" class="marker" x="30" y="325">a
+  <text id="M11" class="marker" x="100" y="325">a
   </text>
-  <text id="M22" class="marker" x="-15" y="170">b
+  <text id="M22" class="marker" x="-15" y="150">b
   </text>
-  <text id="M33" class="marker" x="50" y="130">c
+  <text id="M33" class="marker" x="120" y="130">c
   </text>
   <polyline class="side_angle anim_hide" points="0 288 12 288 12 300"/>
   <style>
