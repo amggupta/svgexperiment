@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="-20 -20 350 350" onload="makeDraggable(evt)" xmlns="http://www.w3.org/2000/svg">
-  <line class="line" x1="150" y1="300" x2="0" y2="0" id="L1"/>
+<svg viewBox="-50 -50 400 450" onload="makeDraggable(evt)" xmlns="http://www.w3.org/2000/svg">
+  <line class="line" x1="60" y1="300" x2="0" y2="0" id="L1"/>
   <line class="line" x1="0" y1="0" x2="0" y2="300" id="L2"/>
-  <line class="line" x1="0" y1="300" x2="150" y2="300" id="L3"/>
-  <circle class="draggable anim_hide" cx="150" cy="300" r="8" id="P1"/>
+  <line class="line" x1="0" y1="300" x2="60" y2="300" id="L3"/>
+  <circle class="draggable anim_hide" cx="60" cy="300" r="8" id="P1"/>
   <circle class="draggable anim_hide" cx="0" cy="0" r="8" id="P2"/>
   <circle class="draggable anim_hide" cx="0" cy="300" r="8" id="P3"/>
-  <text id="M11" class="marker" x="75" y="325">
-    <animateTransform class="anim_move" id="M_TRANS11" dur="0.2s" begin="TRANS1.end" attributeName="transform" type="translate" fill="freeze"/>b
+  <text id="M11" class="marker" x="30" y="325">a
   </text>
-  <text id="M22" class="marker" x="-15" y="150">
-    <animateTransform class="anim_move" id="M_TRANS22" dur="0.2s" begin="TRANS4.end" attributeName="transform" type="translate" fill="freeze"/>a
+  <text id="M22" class="marker" x="-15" y="170">b
+  </text>
+  <text id="M33" class="marker" x="50" y="130">c
   </text>
   <polyline class="side_angle anim_hide" points="0 288 12 288 12 300"/>
   <style>
@@ -120,7 +120,7 @@ function makeDraggable(evt) {
 
   function updateAll() {
     var P1, P2, P3
-    var M11, M22;
+    var M11, M22, M33;
 
     P1 = svg.getElementById("P1");
     P2 = svg.getElementById("P2");
@@ -128,9 +128,12 @@ function makeDraggable(evt) {
 
     M11 = svg.getElementById("M11");
     M22 = svg.getElementById("M22");
+    M33 = svg.getElementById("M33");
 
     M11.setAttribute("x", P1.getAttribute("cx")*0.5); 
     M22.setAttribute("y", P2.getAttribute("cy")*0.5 + 150 );
+    M33.setAttribute("x", P1.getAttribute("cx")*0.5 + P2.getAttribute("cx")*0.5 + 20);
+    M33.setAttribute("y", P1.getAttribute("cy")*0.5 + P2.getAttribute("cy")*0.5 - 20);
 
     var L1 = svg.getElementById("L1");
     var L2 = svg.getElementById("L2");
@@ -142,9 +145,6 @@ function makeDraggable(evt) {
   }
 
 }
-
-
-
 
 ]]>
     
