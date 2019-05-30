@@ -71,7 +71,9 @@ var button_label = false;
 
 function listenMessages(){
    window.addEventListener('message', function(e) {
-        showPytha();
+        if (e.data == "show_pytha"){
+          showPytha();
+        }
    });
  }
     
